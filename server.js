@@ -1,3 +1,5 @@
+// server.js
+
 const express = require('express');
 const multer = require('multer');
 const xlsx = require('xlsx');
@@ -6,7 +8,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// Set storage engine
+
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: function(req, file, cb) {
@@ -14,7 +16,7 @@ const storage = multer.diskStorage({
     }
 });
 
-// Initialize upload
+
 const upload = multer({
     storage: storage,
     fileFilter: function(req, file, cb) {
@@ -22,7 +24,7 @@ const upload = multer({
     }
 }).single('excelFile');
 
-// Check file type
+
 function checkFileType(file, cb) {
     const filetypes = /xlsx|xls/;
     const extname = path.extname(file.originalname).toLowerCase();
@@ -39,10 +41,9 @@ function checkFileType(file, cb) {
 }
 
 
-// Set static folder
 app.use(express.static('./public'));
 
-// Upload Excel file
+
 app.post('/upload', (req, res) => {
     upload(req, res, (err) => {
         if (err) {
